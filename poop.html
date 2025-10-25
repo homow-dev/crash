@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poop</title>
+    <style>
+        @font-face {
+            font-family: 'font';
+            src: url('./font.woff2') format('woff2');
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'font2';
+            src: url('./font2.woff2') format('woff2');
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'font';
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .serchbar {
+            width: 100%;
+            height:60px;
+            background:red;
+      
+        }
+       .serchbar img{
+           width:100%;
+           height:60px;
+       }
+        .betcontainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            flex-direction: row-reverse;
+            width: 100%;
+            height: 40px;
+            text-align: end;
+            border-bottom: 1px solid rgba(133, 131, 131, 0.79);
+
+        }
+
+        .exit {
+            margin-right: 15px;
+            margin-left: 15px;
+            color: #e58929;
+            font-size: 19px;
+        }
+        .wallet{
+            font-size: 18px;
+        }
+        .moneyWallet{
+            font-family: 'font2';
+        }
+        .lamp{
+            /* display: block; */
+            width: 24px;
+            height: 24px;
+            background: url('./images/lamp.png');
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        .sound{
+            width: 24px;
+            height: 24px;
+            background: url('./images/sound.png');
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        .gamecontainer {
+            width: 97%;
+            padding: 7px;
+        }
+
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column-reverse;
+            margin-top: 15px;
+            width: 100%;
+            height: 400px;
+            background-color: #383838;
+        }
+
+        .gameRounds {
+            width: 100%;
+            height: 77px;
+            position: relative;
+            border-top: 1px solid white;
+            transition: 0.2s;
+
+        }
+
+        .activeTimeLine {
+            position: relative;
+        }
+
+        .activeTimeLine::before {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 5px;
+            background-color: #e3e2e2;
+            animation:
+                expand 5s linear forwards,
+                shrink 0s 5s forwards;
+        }
+
+        
+
+        .roundInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: #383838;
+            width: 61%;
+            height: 19px;
+            border: 1px solid white;
+            border-bottom: 2px solid transparent;
+            border-radius: 4px 4px 0px 0px;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            transition: 0.1s;
+            font-family: "font2";
+        }
+
+        .offinfo {
+            display: none;
+        }
+
+        .box_title_left {
+            font-family: 'font2';
+            float: left;
+            text-align: left;
+            font-size: 12px;
+            padding-left: 21px;
+            padding-top: 2px;
+            background: url(./images/poop.png) no-repeat;
+            background-size: 24px 24px;
+            
+            width: 45px;
+        }
+
+        .box_title_middle {
+            float: left;
+            font-feature-settings: "lnum";
+            text-align: center;
+            width: calc(100% - 90px);
+            font-size: 15px;
+        }
+        .box_title_middle .fa{
+            font-family: 'font';
+        }
+        .box_title_middle .money{
+            font-family: 'font2';
+        }
+        .box_title_right {
+            font-family: 'font2';
+            float: left;
+            text-align: right;
+            font-size: 12px;
+            padding-right: 5px;
+            padding-top: 2px;
+            margin-top: -2px;
+            width: 45px;
+        }
+
+
+        .colorOrange {
+            background: #e58929;
+            color: black;
+
+        }
+
+        .colorGreen {
+            background: #3eff67;
+        }
+
+        .boxs {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .box {
+            width: calc(24% - 6px);
+            height: 60px;
+            border-radius: 4px;
+            background: url(./images/box.png);
+            background-size: cover;
+            border: 1px solid #ccc;
+            opacity: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: cover;
+            box-sizing: border-box;
+        }
+
+        .boxOpacity {
+            opacity: 100%;
+        }
+
+        .boxBg {
+            background: white;
+        }
+
+        .boxSelectedBorder {
+            border: 6px solid #e58929;
+        }
+
+        .boxLossBorder {
+            border: 6px solid red;
+        }
+
+        .img {
+            display: none;
+            width: 60px;
+            height: 60px;
+            box-sizing: border-box;
+        }
+
+        .openImg {
+            display: block;
+        }
+
+        .userCount{
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.75);
+            border-radius: 5px; 
+            padding: 8px;
+            color: white;
+            font-size: 14px;
+            line-height: 14px;
+            font-family: font2;
+
+        }
+        .userCount img{
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+        }
+        .userCount span{
+            font-family: 'font2';
+        }
+        .showUserCount{
+            display: flex;
+        }
+        .userCountNum{
+            display: none;
+        }
+        .userCountNumShow{
+            display: block;
+        }
+        .inputContainer{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border: 0px;
+            flex-direction: column;
+            text-align: left;
+        }
+        .inputContainer p{
+            width: 90%;
+            font-size: 14px;
+            font-weight: 500;
+            color: #999;
+            text-align: left;
+            margin-top: 10px;
+        }
+        .moneyInputContainer{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row-reverse;
+            width: 90%;
+            height: 29px;
+            border: 1px solid #aaa;
+            height: 30px;
+        }
+        .moneyInput{
+            width: 100%;
+            height: 28px;
+            border: 0px;
+            font-size: 16px;
+            outline: none;
+            padding-left: 5px;
+            font-family: 'font2';
+        }
+        .moneyInputContainer_button{
+            display: flex;
+            align-items: center;
+            justify-content:center;
+        }
+        .moneyInputContainer_button a{
+            cursor: pointer;
+            position: relative;
+            float: right;
+            margin-right: 4px;
+            width: 26px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 10px;
+            text-align: center;
+            background: #ddd;
+            color: #666;
+            font-size: 10px;
+            text-decoration: none;
+            font-family: 'font2';
+        }
+        .timerdiv{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gameTimerContainer{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 12px;
+            width: 90%;
+            background: #eee;
+            border: 1px solid #ccc;
+            color: #000;
+            font-size: 12px;
+            height: 30px;
+        }
+        .gameTimerContainer p{
+            z-index: 10000;
+        }
+        .noneTimeText{
+            display: none;
+        }
+        .timerNum{
+            font-family: 'font2';
+        }
+        .timer{
+            z-index: 10;
+        }
+        .timer::before{
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: rgb(255,226,143,0.9);
+            animation:
+                expand 5s linear forwards,
+                shrink 0s 5s forwards;
+        }
+        .firstTimer{
+            z-index: 10;
+        }
+        .firstTimer::before{
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color:rgb(164,221,255,0.9);
+            animation:
+                expand 5s linear forwards,
+                shrink 0s 5s forwards;
+        }
+
+        @keyframes expand {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes shrink {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0;
+            }
+        }
+
+        .btns{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .betBtn{
+            font-weight: 500;
+            display: none;
+            line-height: 150%;
+            padding: 8px 0px;
+            border-radius: 10px;
+            background: #e58929;
+            margin-top: 12px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-bottom: 3px solid #383838;
+            width: 90%;
+            white-space: nowrap;
+            overflow: auto;
+            text-overflow: ellipsis;
+            z-index: 50;
+        }
+
+        .betCancelBtn{
+            z-index: 100;
+            font-weight: 500;
+            display: none;
+            line-height: 150%;
+            padding: 8px 0px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 16px;
+            text-decoration: none;
+            border: none;
+            border-bottom: 3px solid #383838;
+            width: 90%;
+            white-space: nowrap;
+            overflow: auto;
+            text-overflow: ellipsis;
+            background: #ababab;
+            color: #000 ;
+        }
+
+        .cancelBtnInfo{
+            font-size: 12px;
+            display: block;
+        }
+
+        .getMoneyBtn{
+            font-weight: 500;
+            display: none;
+            line-height: 150%;
+            padding: 8px 0px;
+            border-radius: 10px;
+            background: #408609;
+            margin-top: 12px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-bottom: 3px solid #383838;
+            width: 90%;
+            white-space: nowrap;
+            overflow: auto;
+            text-overflow: ellipsis;
+            z-index: 50;
+        }
+
+        .penddingGetMoney{
+            font-weight: 500;
+            display: none;
+            line-height: 150%;
+            padding: 8px 0px;
+            border-radius: 10px;
+            background: #408609;
+            margin-top: 12px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-bottom: 3px solid #383838;
+            width: 90%;
+            white-space: nowrap;
+            overflow: auto;
+            text-overflow: ellipsis;
+            opacity: 50%;
+        }
+        .getMoneyBtnInfo{
+            font-family: 'font2';
+        }
+        .showBtn{
+            display: inline-block;
+        }
+        .hideBtn{
+            display:none;
+        }
+
+        .chatContainer{
+            margin-top: 10px;
+            width: 100%;
+            height: 400px;
+            min-height: 400px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #ddd; 
+
+        }
+
+        .leftBtn{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            height: 100%;
+            width: 41px;
+            background-color: antiquewhite;
+            
+        } 
+        .leftBtn button{ 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color:#ddd; 
+            border: none;
+        }
+        .leftBtn button p{
+            position: absolute;
+            width: 100px;
+            transform: rotate(270deg);
+            color: #383838;
+            font-size: 14px;
+        
+            
+        }
+
+        .chatbox{
+            width: 100%;
+            height: 100%;
+            
+        }
+        .messageInput{
+            width: 98%;
+            height: 35px;
+            background-color: white;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 5px solid #ddd;
+            z-index: 1000;
+         
+        }
+        .messageInput input{
+            width: 97%;
+            border: none;
+            outline: none;
+            
+        }
+        .messageInput .sendBtn{
+            background: url('./images/send.png') no-repeat;
+            width: 24px;
+            height: 24px;
+            padding-right: 15px;
+        }
+        .messageBox{
+            width: 95%;
+            height: 86%;
+            background-color: white;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 7px;
+        }
+        .message {
+            align-self: flex-start;
+           
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 3px;
+            font-size: 12px;
+            width: 100%;
+        }
+        .msgTxt{
+            margin-bottom: 3px;
+            line-height: 160%;
+        }
+        .msgSender{
+           color: #e58929;
+        }
+        .bot{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;    
+            height: 40px;
+        }
+        .botCerc{
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background: green;
+            margin-right: 10px;
+        }
+        .botPoopBox{
+            background: red;
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="serchbar">
+            <img src="./images/site.jpg"></img>
+        </div>
+        <div class="betcontainer">
+            <div class="nav">
+                <p class="exit">خروج</p>
+                <p class="wallet"><span class="moneyWallet">12,21323</span> تومان</p>
+                <div class="lamp"></div>
+                <div class="sound"></div>
+            </div>
+            <div class="gamecontainer">
+                <div class="main">
+                    <div class="round1 gameRounds">
+                        <div class="roundInfo info1">
+                            <div class="box_title_left">x 1</div>
+                            <div class="box_title_middle"> <span class="money"> 1,250</span> <span class="fa">تومان</span></div>
+                            <div class="box_title_right">x 1.25</div>
+                        </div>
+                        <div class="boxs">
+                            <div id="0" class="box box0"><img class="img img0" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="1" class="box box1"><img class="img img1" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="2" class="box box2"><img class="img img2" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="3" class="box box3"><img class="img img3" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                        </div>
+                    </div>
+
+                    <div class="round2 gameRounds">
+                        <div class="roundInfo info2">
+                            <div class="box_title_left">x 1</div>
+                            <div class="box_title_middle"><span class="money"> 1,750</span> <span class="fa">تومان</span></div>
+                            <div class="box_title_right">x 1.40</div>
+                        </div>
+                        <div class="boxs">
+                            <div id="0" class="box box0"><img class="img img0" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="1" class="box box1"><img class="img img1" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="2" class="box box2"><img class="img img2" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="3" class="box box3"><img class="img img3" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                        </div>
+                    </div>
+                    <div class="round3 gameRounds">
+                        <div class="roundInfo info3">
+                            <div class="box_title_left">x 2</div>
+                            <div class="box_title_middle"><span class="money">3,238</span> <span class="fa">تومان</span> </div>
+                            <div class="box_title_right">x 1.85</div>
+                        </div>
+                        <div class="boxs">
+                            <div id="0" class="box box0"><img class="img img0" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="1" class="box box1"><img class="img img1" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="2" class="box box2"><img class="img img2" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="3" class="box box3"><img class="img img3" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                        </div>
+                    </div>
+                    <div class="round4 gameRounds">
+                        <div class="roundInfo info4">
+                            <div class="box_title_left">x 2</div>
+                            <div class="box_title_middle"><span class="money">6,476</span> <span class="fa">تومان</span></div>
+                            <div class="box_title_right">x 2.00</div>
+                        </div>
+                        <div class="boxs">
+                            <div id="0" class="box box0"><img class="img img0" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="1" class="box box1"><img class="img img1" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="2" class="box box2"><img class="img img2" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="3" class="box box3"><img class="img img3" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                        </div>
+                    </div>
+                    <div class="round5 gameRounds">
+                        <div class="roundInfo info5">
+                            <div class="box_title_left">x 3</div>
+                            <div class="box_title_middle"><span class="money">22,666</span>  <span class="fa">تومان</span></div>
+                            <div class="box_title_right">x 3.50</div>
+                        </div>
+                        <div class="boxs">
+                            <div id="0" class="box box0"><img class="img img0" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="1" class="box box1"><img class="img img1" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="2" class="box box2"><img class="img img2" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                            <div id="3" class="box box3"><img class="img img3" src="./images/winner.png" alt=""><div class="userCount"><img src="./images/uw.png" alt=""><span class="userCountNum">0</span></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bot">
+                    ربات فعال است ... :
+                    <span class="botCerc botBox0"></span>
+                    <span class="botCerc botBox1"></span>
+                    <span class="botCerc botBox2"></span>
+                    <span class="botCerc botBox3"></span>
+                </div>
+
+                <div class="inputContainer">
+                    <p>مبلغ</p>
+                    <div class="moneyInputContainer">
+                        <div class="moneyInputContainer_button">
+                            <a href="">x2</a>
+                            <a href="">1/2</a>
+                        </div>
+                        <input type="text" class="moneyInput" id="numberInput" value="1,000">
+                    </div>
+                </div>
+
+                <div class="timerdiv">
+                    <div class="gameTimerContainer ">
+                        <p class="timerText">باز شدن جعبه ها در <span class="timerNum"></span> ثانیه</p>
+                        <p class="timerTextFinish noneTimeText" >جعبه ها باز میشوند...</p>
+                        <p class="timerTextRoundFinish noneTimeText" >بازی به اتمام رسید!</p>
+                    </div>
+                </div>
+                
+                <div class="btns">
+                    <button class="betBtn showBtn">ثبت شرط</button>
+                    <button class="betCancelBtn">لغو <br><span class="cancelBtnInfo">(در بازی بعدی شرکت کنید)</span></button>
+                    <button class="getMoneyBtn ">برداشت <span class="getMoneyBtnInfo">1</span></button>
+                    <button class="penddingGetMoney " disabled>...</button>
+
+                </div>
+
+                <div class="chatContainer">
+                    <div class = 'leftBtn'>
+                        <button><p>تاریخچه</p></button>
+                        <button style="background-color: white;  "><p style="color: #e58929;">چت</p></button>
+                        <button><p>بازیکنان</p></button>
+                    </div>
+                    <div class="chatbox">
+                        <div class="messageBox">
+                            <div class="message">
+                                <div class="msgSender" >متین</div>
+                                <div class="msgTxt"> درست میگید هر جا میذاری میاد همونجا البته دستی نیست خلوت باشه همینه</div>
+                            </div>
+                            <div class="message">
+                                <div class="msgSender" >mosi</div>
+                                <div class="msgTxt"> ده دست باختم این غیر ممکن است </div>
+                            </div>
+                            <div class="message">
+                                <div class="msgSender" >دوکی</div>
+                                <div class="msgTxt"> لعنت بهتون</div>
+                            </div>
+                            <div class="message">
+                                <div class="msgSender" >دوکی</div>
+                                <div class="msgTxt"> چرا انقدر چرته </div>
+                            </div>
+                            <div class="message">
+                                <div class="msgSender" >mosi</div>
+                                <div class="msgTxt"> 😵😵</div>
+                            </div>
+                            <div class="message">
+                                <div class="msgSender" >متین</div>
+                                <div class="msgTxt"> دومی پوپ</div>
+                            </div>
+                            <div class="message">
+                                <div class="msgSender" >علی</div>
+                                <div class="msgTxt"> عجب بابا عجب </div>
+                            </div>
+                        </div>
+                        <div class="messageInput">
+                            <input type="text">
+                            <span class="sendBtn"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
